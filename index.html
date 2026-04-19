@@ -22,7 +22,6 @@
       </div>
 
       <form id="mainForm">
-        <!-- 第 1 頁：歡迎頁 -->
         <div id="section1" class="card-base active">
           <div id="welcomeContent">
             <h2>學生學習心理與行為調查問卷</h2>
@@ -46,7 +45,6 @@
           </div>
         </div>
 
-        <!-- 第 2 頁：基本資料 -->
         <div id="section2" class="card-base">
           <div class="section-title">第一部分：基本調查</div>
           <label class="question-title">1. 您的年級？</label>
@@ -82,7 +80,6 @@
           <div class="error-hint" id="err2">請填寫所有基本資料。</div>
         </div>
 
-        <!-- 第 3 頁：量表題目 -->
         <div id="section3" class="card-base">
           <div class="section-title">第二部分：學業感受調查</div>
           <p class="text-muted small mb-4">請依照最近一個月內的真實感受填答</p>
@@ -94,7 +91,6 @@
           <div class="error-hint" id="err3">尚有題目未填答，請檢查。</div>
         </div>
 
-        <!-- 第 4 頁：結尾 -->
         <div id="section4" class="card-base">
           <div class="section-title">最後確認</div>
           <p class="mb-4">非常感謝您的耐心協助！</p>
@@ -108,7 +104,6 @@
           </div>
         </div>
 
-        <!-- 對象不符頁面 -->
         <div id="section_invalid" class="card-base">
           <div class="section-title">問卷結束</div>
           <p>很抱歉，本研究對象目前僅限於國高中在學學生。感謝您的關注！</p>
@@ -116,7 +111,7 @@
           <textarea name="feedback_invalid" class="form-control-custom" rows="3"></textarea>
           <div class="btn-group-custom">
             <button type="button" class="btn-back" onclick="nav('back', 'invalid')">返回修改</button>
-            <button type="button" class="btn-next-split" onclick="submitFinal()">送出留言</button>
+            <button type="button" class="btn-next-split" id="submitInvalidBtn" onclick="submitFinal()">送出留言</button>
           </div>
         </div>
       </form>

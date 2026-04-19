@@ -54,7 +54,6 @@ window.onload = function() {
   });
 };
 
-
 function nav(dir, from) {
   document.querySelectorAll('.error-hint').forEach(e => e.style.display = 'none');
   
@@ -95,9 +94,9 @@ function clearMainFormExceptFeedback() {
   inputs.forEach(input => {
     if(input.name !== 'isStudent') input.checked = false;
   });
-  document.querySelector('textarea[name="feedback"]').value = '';
+  const fb = document.querySelector('textarea[name="feedback"]');
+  if(fb) fb.value = '';
 }
-
 
 function showSection(id, progress) {
   document.querySelectorAll('.card-base').forEach(el => {
@@ -105,37 +104,46 @@ function showSection(id, progress) {
     el.style.display = 'none';
   });
   const target = document.getElementById(id);
-  target.classList.add('active');
-  target.style.display = 'block';
-  document.getElementById('progressBar').style.width = progress + '%';
+  if (target) {
+    target.classList.add('active');
+    target.style.display = 'block';
+  }
+  const pb = document.getElementById('progressBar');
+  if (pb) pb.style.width = progress + '%';
   window.scrollTo(0, 0);
 }
 
 async function submitFinal() {
-  // 取得當前被點擊的按鈕以進行狀態控制
-  const btn = document.activeElement; 
-  const isInvalidPage = document.getElementById('section_invalid').classList.contains('active');
-  
-  btn.disabled = true;
-  const originalText = btn.innerHTML;
-  btn.innerHTML = "提交中...";
+  const formElement = document.getElementById('mainForm');
+  if (!formElement) return;
 
-  const formData = new FormData(document.getElementById('mainForm'));
-  let data = Object.fromEntries(formData.entries());
+  const isInvalidPage = document.getElementById('section_invalid').style.display === 'block';
+  const btn = isInvalidPage ? document.getElementById('submitInvalidBtn') : document.getElementById('submitBtn');
   
-  if (isInvalidPage) {
-    Object.keys(data).forEach(key => {
-      if (key !== 'isStudent' && key !== 'feedback_invalid') delete data[key];
-    });
-  } else {
-    for(let i=1; i<=20; i++) {
-      const checked = document.querySelector(`input[name="q${i}"]:checked`);
-      data['q' + i] = checked ? checked.value : "";
-    }
-    delete data['feedback_invalid'];
+  if (btn) {
+    btn.disabled = true;
+    var originalText = btn.innerHTML;
+    btn.innerHTML = "提交中...";
   }
 
   try {
+    const formData = new FormData(formElement);
+    let data = Object.fromEntries(formData.entries());
+    
+    if (isInvalidPage) {
+      const cleanData = {
+        isStudent: data.isStudent,
+        feedback_invalid: data.feedback_invalid || ""
+      };
+      data = cleanData;
+    } else {
+      for(let i=1; i<=20; i++) {
+        const checked = formElement.querySelector(`input[name="q${i}"]:checked`);
+        data['q' + i] = checked ? checked.value : "";
+      }
+      delete data['feedback_invalid'];
+    }
+
     await fetch(GAS_API_URL, {
       method: "POST",
       mode: "no-cors",
@@ -150,14 +158,18 @@ async function submitFinal() {
 
   } catch (error) {
     console.error("提交失敗:", error);
-    btn.disabled = false;
-    btn.innerHTML = originalText;
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = originalText;
+    }
     alert("提交失敗，請檢查網路連線或嘗試重新送出。");
   }
 }
 
 function finish() {
-  document.getElementById('mainForm').style.display = 'none';
-  document.getElementById('progressWrapper').style.display = 'none';
+  const form = document.getElementById('mainForm');
+  const prog = document.getElementById('progressWrapper');
+  if(form) form.style.display = 'none';
+  if(prog) prog.style.display = 'none';
   showSection('successPage', 100);
 }
