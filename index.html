@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>自我效能感的崩塌：探討國高中生的挫折如何導致拖延行為</title>
+  </head>
+  <body>
+    <div class="container">
+      <div id="bannerArea">
+        <div class="banner-container">
+          <img src="https://lh3.googleusercontent.com/u/0/d/1t0pmQvs_wN8u_tnSoXcdbne7EKSIcnXz" class="banner-img" alt="[問卷橫幅]">
+        </div>
+      </div>
+
+      <div id="progressWrapper" class="progress-container">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+
+      <form id="mainForm">
+        <!-- 第 1 頁：歡迎頁 -->
+        <div id="section1" class="card-base active">
+          <div id="welcomeContent">
+            <h2>自我效能感的崩塌：探討國高中生的挫折如何導致拖延行為</h2>
+            <div class="intro-box">
+              <strong>【學術研究問卷邀請】</strong><br>
+              您好，我們是臺北市立中崙高級中學一年級的學生。目前正在進行校定必修課程的小論文研究。<br><br>
+              填答須知：<br>
+              1. 本問卷採匿名方式，僅供學術研究使用。<br>
+              2. 題目共 20 題，約需 5-10 分鐘。<br>
+              3. 聯繫信箱：s11430031@zlsh.tp.edu.tw。<br>
+              4. <strong>提示：每位填答者限填一次，感謝您的配合。</strong>
+            </div>
+            
+            <label class="question-title">1. 請問您目前是否為在學之國中或高中（職）生？</label>
+            <div class="option-grid">
+              <label><input type="radio" name="isStudent" value="yes"><div class="custom-option">是</div></label>
+              <label><input type="radio" name="isStudent" value="no"><div class="custom-option">否</div></label>
+            </div>
+            <button type="button" class="btn-full" onclick="nav('next', 1)">開始填寫</button>
+            <div class="error-hint" id="err1">請先選擇身分狀態。</div>
+          </div>
+        </div>
+
+        <!-- 第 2 頁：基本資料 -->
+        <div id="section2" class="card-base">
+          <div class="section-title">第一部分：基本調查</div>
+          <label class="question-title">1. 您的年級？</label>
+          <div class="option-grid">
+            <label><input type="radio" name="grade" value="國一"><div class="custom-option">國一</div></label>
+            <label><input type="radio" name="grade" value="國二"><div class="custom-option">國二</div></label>
+            <label><input type="radio" name="grade" value="國三"><div class="custom-option">國三</div></label>
+            <label><input type="radio" name="grade" value="高一"><div class="custom-option">高一</div></label>
+            <label><input type="radio" name="grade" value="高二"><div class="custom-option">高二</div></label>
+            <label><input type="radio" name="grade" value="高三"><div class="custom-option">高三</div></label>
+          </div>
+
+          <label class="question-title">2. 您的性別？</label>
+          <div class="option-grid">
+            <label><input type="radio" name="gender" value="男"><div class="custom-option">男</div></label>
+            <label><input type="radio" name="gender" value="女"><div class="custom-option">女</div></label>
+            <label><input type="radio" name="gender" value="其他"><div class="custom-option">其他 / 不願透露</div></label>
+          </div>
+
+          <label class="question-title">3. 您在班上的學業表現大約位於？</label>
+          <div class="scale-wrapper">
+            <label class="scale-point"><span class="scale-label">後段</span><input type="radio" name="performance" value="1"><div class="scale-dot"></div></label>
+            <label class="scale-point"><span class="scale-label">中下</span><input type="radio" name="performance" value="2"><div class="scale-dot"></div></label>
+            <label class="scale-point"><span class="scale-label">中等</span><input type="radio" name="performance" value="3"><div class="scale-dot"></div></label>
+            <label class="scale-point"><span class="scale-label">中上</span><input type="radio" name="performance" value="4"><div class="scale-dot"></div></label>
+            <label class="scale-point"><span class="scale-label">前段</span><input type="radio" name="performance" value="5"><div class="scale-dot"></div></label>
+          </div>
+
+          <div class="btn-group-custom">
+            <button type="button" class="btn-back" onclick="nav('back', 2)">上一步</button>
+            <button type="button" class="btn-next-split" onclick="nav('next', 2)">下一階段</button>
+          </div>
+          <div class="error-hint" id="err2">請填寫所有基本資料。</div>
+        </div>
+
+        <!-- 第 3 頁：量表題目 -->
+        <div id="section3" class="card-base">
+          <div class="section-title">第二部分：學業感受調查</div>
+          <p class="text-muted small mb-4">請依照最近一個月內的真實感受填答</p>
+          <div id="questionsContainer"></div>
+          <div class="btn-group-custom">
+            <button type="button" class="btn-back" onclick="nav('back', 3)">上一步</button>
+            <button type="button" class="btn-next-split" onclick="nav('next', 3)">最後一步</button>
+          </div>
+          <div class="error-hint" id="err3">尚有題目未填答，請檢查。</div>
+        </div>
+
+        <!-- 第 4 頁：結尾 -->
+        <div id="section4" class="card-base">
+          <div class="section-title">最後確認</div>
+          <p class="mb-4">非常感謝您的耐心協助！</p>
+          
+          <label class="question-title">若有其他留言或建議 (選填)：</label>
+          <textarea name="feedback" class="form-control-custom" rows="5" placeholder="您的寶貴意見..."></textarea>
+          
+          <div class="btn-group-custom">
+            <button type="button" class="btn-back" onclick="nav('back', 4)">上一步</button>
+            <button type="button" class="btn-next-split" id="submitBtn" onclick="submitFinal()">送出問卷</button>
+          </div>
+        </div>
+
+        <!-- 對象不符頁面 -->
+        <div id="section_invalid" class="card-base">
+          <div class="section-title">問卷結束</div>
+          <p>很抱歉，本研究對象目前僅限於國高中在學學生。感謝您的關注！</p>
+          <label class="question-title">如有建議歡迎留言：</label>
+          <textarea name="feedback_invalid" class="form-control-custom" rows="3"></textarea>
+          <div class="btn-group-custom">
+            <button type="button" class="btn-back" onclick="nav('back', 'invalid')">返回修改</button>
+            <button type="button" class="btn-next-split" onclick="submitFinal()">送出留言</button>
+          </div>
+        </div>
+      </form>
+
+      <div id="successPage" class="card-base text-center">
+        <div style="font-size: 50px; color: #78909c; margin-bottom: 20px;">✓</div>
+        <h3 style="font-weight:700; color: #546e7a;">提交成功</h3>
+        <p class="mt-3">感謝您的參與！您的填答已安全送出。<br>本問卷限填一次，請勿重複提交。</p>
+      </div>
+
+      <div id="alreadySubmittedPage" class="card-base text-center">
+        <div style="font-size: 50px; color: #ffa000; margin-bottom: 20px;">!</div>
+        <h3 style="font-weight:700; color: #546e7a;">您已經提交過此問卷</h3>
+        <p class="mt-3">為確保數據品質，本研究限填答一次。<br>謝謝您的支持！</p>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
