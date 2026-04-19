@@ -54,6 +54,7 @@ window.onload = function() {
   });
 };
 
+
 function nav(dir, from) {
   document.querySelectorAll('.error-hint').forEach(e => e.style.display = 'none');
   
@@ -61,8 +62,13 @@ function nav(dir, from) {
     if (from === 1) {
       const status = document.querySelector('input[name="isStudent"]:checked');
       if (!status) { document.getElementById('err1').style.display = 'block'; return; }
-      if (status.value === 'yes') { showSection('section2', 25); } 
-      else { showSection('section_invalid', 100); }
+      
+      if (status.value === 'yes') { 
+        showSection('section2', 25); 
+      } else { 
+        clearMainFormExceptFeedback();
+        showSection('section_invalid', 100); 
+      }
     } else if (from === 2) {
       const g = document.querySelector('input[name="grade"]:checked');
       const s = document.querySelector('input[name="gender"]:checked');
@@ -84,6 +90,15 @@ function nav(dir, from) {
   }
 }
 
+function clearMainFormExceptFeedback() {
+  const inputs = document.querySelectorAll('#mainForm input[type="radio"]');
+  inputs.forEach(input => {
+    if(input.name !== 'isStudent') input.checked = false;
+  });
+  document.querySelector('textarea[name="feedback"]').value = '';
+}
+
+
 function showSection(id, progress) {
   document.querySelectorAll('.card-base').forEach(el => {
     el.classList.remove('active');
@@ -97,20 +112,31 @@ function showSection(id, progress) {
 }
 
 async function submitFinal() {
-  const btn = document.getElementById('submitBtn');
+  // 取得當前被點擊的按鈕以進行狀態控制
+  const btn = document.activeElement; 
+  const isInvalidPage = document.getElementById('section_invalid').classList.contains('active');
+  
   btn.disabled = true;
+  const originalText = btn.innerHTML;
   btn.innerHTML = "提交中...";
 
   const formData = new FormData(document.getElementById('mainForm'));
-  const data = Object.fromEntries(formData.entries());
+  let data = Object.fromEntries(formData.entries());
   
-  for(let i=1; i<=20; i++) {
-    const checked = document.querySelector(`input[name="q${i}"]:checked`);
-    data['q' + i] = checked ? checked.value : "";
+  if (isInvalidPage) {
+    Object.keys(data).forEach(key => {
+      if (key !== 'isStudent' && key !== 'feedback_invalid') delete data[key];
+    });
+  } else {
+    for(let i=1; i<=20; i++) {
+      const checked = document.querySelector(`input[name="q${i}"]:checked`);
+      data['q' + i] = checked ? checked.value : "";
+    }
+    delete data['feedback_invalid'];
   }
 
   try {
-    const response = await fetch(GAS_API_URL, {
+    await fetch(GAS_API_URL, {
       method: "POST",
       mode: "no-cors",
       body: JSON.stringify(data),
@@ -125,11 +151,10 @@ async function submitFinal() {
   } catch (error) {
     console.error("提交失敗:", error);
     btn.disabled = false;
-    btn.innerHTML = "重新送出";
-    alert("提交失敗，請檢查網路連線或嘗試在一般瀏覽器開啟。");
+    btn.innerHTML = originalText;
+    alert("提交失敗，請檢查網路連線或嘗試重新送出。");
   }
 }
-
 
 function finish() {
   document.getElementById('mainForm').style.display = 'none';
