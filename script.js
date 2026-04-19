@@ -1,8 +1,8 @@
-const SURVEY_KEY = "ZLSH_SURVEY_STAMP_001"; // 瀏覽器記錄鍵名
+const SURVEY_KEY = "ZLSH_SURVEY_STAMP_001";
 const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyc6gEkFfDpdaifQk2cNLdqtzgF0Nm9TZtuI0rD1NcjJSwJwwW_ZRvzXNsoC5f-432e/exec";
 
 const QUESTIONS = [
-  "面對艱難的學習內容時，我常感到力不從心。",
+  "面對艱難的學習內容時，我常覺得自己無法完成。",
   "即使我已經努力準備，成績卻仍不如預期。",
   "我覺得目前學校的課業難度超出了我的能力範圍。",
   "看到其他同學輕鬆取得好成績，會讓我對自己感到沮喪。",
@@ -21,13 +21,12 @@ const QUESTIONS = [
   "我習慣把困難的功課往後延，先做簡單但無關緊要的小事。",
   "我常覺得「現在心情不好」，所以推遲原定的讀書計畫。",
   "我發現自己在拖延時會感到焦慮，但仍無法立刻動手。",
-  "即使已經熬夜趕工，我還是常因拖延沒能完成進度。"
+  "即便我在最後期限前試圖補救，卻仍因先前的拖延而無法如期完成。"
 ];
 
 const LABELS = ["從不", "很少", "有時", "經常", "總是"];
 
 window.onload = function() {
-  // 防止重複作答檢測
   if(localStorage.getItem(SURVEY_KEY)) {
     showSection('alreadySubmittedPage', 100);
     document.getElementById('progressWrapper').style.display = 'none';
@@ -102,28 +101,24 @@ async function submitFinal() {
   btn.disabled = true;
   btn.innerHTML = "提交中...";
 
-  // 收集表單數據轉為 JSON
   const formData = new FormData(document.getElementById('mainForm'));
   const data = Object.fromEntries(formData.entries());
   
-  // 針對 20 題 radio 另外處理 (FormData 有時抓不到未勾選的)
   for(let i=1; i<=20; i++) {
     const checked = document.querySelector(`input[name="q${i}"]:checked`);
     data['q' + i] = checked ? checked.value : "";
   }
 
   try {
-    // 使用 fetch 發送 POST 請求
     const response = await fetch(GAS_API_URL, {
       method: "POST",
-      mode: "no-cors", // 關鍵：GAS 不支援標準 CORS，需用 no-cors
+      mode: "no-cors",
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "text/plain;charset=utf-8"
       }
     });
 
-    // 由於 no-cors 模式無法讀取回傳內容，我們假設只要沒噴錯就是成功
     localStorage.setItem(SURVEY_KEY, "done");
     finish();
 

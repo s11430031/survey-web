@@ -10,7 +10,6 @@
 body { background-color: var(--bg-soft); padding: 20px 10px; font-family: 'Noto Sans TC', sans-serif; color: var(--text-main); line-height: 1.6; }
 .container { max-width: 720px; margin: auto; }
 
-/* 橫幅容器：確保完整顯示圖片且不壓縮變形 */
 #bannerArea { transition: all 0.3s ease; display: block; margin-bottom: 0; }
 .banner-container { 
   width: 100%; 
@@ -21,12 +20,11 @@ body { background-color: var(--bg-soft); padding: 20px 10px; font-family: 'Noto 
 }
 .banner-img { 
   width: 100%; 
-  height: auto; /* 自動高度，保持原始比例 */
+  height: auto;
   display: block; 
-  object-fit: contain; /* 確保不裁切 */
+  object-fit: contain;
 }
 
-/* 進度條 */
 .progress-container { height: 6px; background: #e9ecef; margin-bottom: 0; overflow: hidden; }
 .progress-bar { height: 100%; background: #78909c; width: 0%; transition: width 0.3s; }
 
