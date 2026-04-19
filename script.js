@@ -30,7 +30,6 @@ window.onload = function() {
   // 防止重複作答檢測
   if(localStorage.getItem(SURVEY_KEY)) {
     showSection('alreadySubmittedPage', 100);
-    document.getElementById('bannerArea').style.display = 'none';
     document.getElementById('progressWrapper').style.display = 'none';
     return;
   }
@@ -139,7 +138,6 @@ async function submitFinal() {
 
 function finish() {
   document.getElementById('mainForm').style.display = 'none';
-  document.getElementById('bannerArea').style.display = 'none';
   document.getElementById('progressWrapper').style.display = 'none';
   showSection('successPage', 100);
 }
