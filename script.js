@@ -71,7 +71,7 @@ function nav(dir, from) {
       showSection('section3', 75);
     } else if (from === 3) {
       let allAnswered = true;
-      // 修正為 15 題檢查
+      // 配合 15 題進行驗證
       for(let i=1; i<=15; i++) {
         if(!document.querySelector(`input[name="q${i}"]:checked`)) { allAnswered = false; break; }
       }
@@ -129,7 +129,7 @@ async function submitFinal() {
     if (isInvalidPage) {
       data = {
         isStudent: data.isStudent,
-        feedback_invalid: data.feedback_invalid || ""
+        feedback: data.feedback_invalid || ""
       };
     } else {
       for(let i=1; i<=15; i++) {
