@@ -71,6 +71,7 @@ function nav(dir, from) {
       showSection('section3', 75);
     } else if (from === 3) {
       let allAnswered = true;
+      // 修正為 15 題檢查
       for(let i=1; i<=15; i++) {
         if(!document.querySelector(`input[name="q${i}"]:checked`)) { allAnswered = false; break; }
       }
@@ -126,11 +127,10 @@ async function submitFinal() {
     let data = Object.fromEntries(formData.entries());
     
     if (isInvalidPage) {
-      const cleanData = {
+      data = {
         isStudent: data.isStudent,
         feedback_invalid: data.feedback_invalid || ""
       };
-      data = cleanData;
     } else {
       for(let i=1; i<=15; i++) {
         const checked = formElement.querySelector(`input[name="q${i}"]:checked`);
