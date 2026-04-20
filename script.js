@@ -1,5 +1,5 @@
 const SURVEY_KEY = "ZLSH_SURVEY_STAMP_001";
-const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyc6gEkFfDpdaifQk2cNLdqtzgF0Nm9TZtuI0rD1NcjJSwJwwW_ZRvzXNsoC5f-432e/exec";
+const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzSoTugDOUxRxUoMmugA5fPJNB0MZKNQ52rrUSbX9rBaB1VQ2KAhDqmUrlQXr5K_5iK/exec";
 
 const QUESTIONS = [
   "面對艱難的學習內容時，我常覺得自己無法完成。",
