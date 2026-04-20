@@ -4,7 +4,6 @@ const GAS_API_URL = "https://script.google.com/macros/s/AKfycbyc6gEkFfDpdaifQk2c
 const QUESTIONS = [
   "面對艱難的學習內容時，我常覺得自己無法完成。",
   "即使我已經努力準備，成績卻仍不如預期。",
-  "我覺得目前學校的課業難度超出了我的能力範圍。",
   "看到其他同學輕鬆取得好成績，會讓我對自己感到沮喪。",
   "在學校或補習班的小考中，我常因為挫折而想放棄這門學科。",
   "師長或家長對我成績的期待，讓我感到沉重的壓力。",
@@ -13,15 +12,11 @@ const QUESTIONS = [
   "我覺得自己再怎麼努力，也無法改變成績不好的現實。",
   "面對全新的學習任務時，我通常缺乏信心。",
   "只要考試題目稍微變形，我就會覺得自己一定寫不出來。",
-  "我認為自己不是讀書的料，對未來的升學感到茫然。",
   "當我在課業上失敗時，我會將其歸咎於自己的能力不足。",
   "我常在截止日期（如交作業、段考）前一刻才開始趕進度。",
   "雖然知道該讀書，但我會先滑手機、看影片來逃避壓力。",
   "對於那些讓我感到挫折的學科，我會花更多時間去拖延。",
-  "我習慣把困難的功課往後延，先做簡單但無關緊要的小事。",
-  "我常覺得「現在心情不好」，所以推遲原定的讀書計畫。",
-  "我發現自己在拖延時會感到焦慮，但仍無法立刻動手。",
-  "即便我在最後期限前試圖補救，卻仍因先前的拖延而無法如期完成。"
+  "我常覺得「現在心情不好」，所以推遲原定的讀書計畫。"
 ];
 
 const LABELS = ["從不", "很少", "有時", "經常", "總是"];
@@ -76,7 +71,7 @@ function nav(dir, from) {
       showSection('section3', 75);
     } else if (from === 3) {
       let allAnswered = true;
-      for(let i=1; i<=20; i++) {
+      for(let i=1; i<=15; i++) {
         if(!document.querySelector(`input[name="q${i}"]:checked`)) { allAnswered = false; break; }
       }
       if(!allAnswered) { document.getElementById('err3').style.display = 'block'; return; }
@@ -137,7 +132,7 @@ async function submitFinal() {
       };
       data = cleanData;
     } else {
-      for(let i=1; i<=20; i++) {
+      for(let i=1; i<=15; i++) {
         const checked = formElement.querySelector(`input[name="q${i}"]:checked`);
         data['q' + i] = checked ? checked.value : "";
       }
